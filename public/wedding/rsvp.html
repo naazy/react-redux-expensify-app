@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="./main.css">
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <img class='image' src='./images/balloon-banner.png'>
+
+<body>
+    <ul class="tabs center-align">
+        <li class="tab col s2">
+            <a target="_self" href="https://naazy.github.io">Our wedding</a>
+        </li>
+        <li class="tab col s2">
+            <a class="active" target="_self" href="./gifts.html">Gifts</a>
+        </li>
+        <li class="tab col s2">
+            <a target="_self" href="./rsvp.html">RSVP</a>
+        </li>
+    </ul>
+
+    <div class="section no-pad-bot" id="index-banner">
+        <div class="container">
+            <div class="row center">
+                <div class="col s12 m10 offset-m1">
+                    <h1 class="header">RSVP</h1>
+                </div>
+                <div class="col s12 m8 offset-m2">
+                    <p class="light">If multiple members of your household were invited, please RSVP for each person</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <form id="form" class="m5 offset-m5 col s12">
+            <div class="input-field col s6">
+                <input id="name" type="text" class="validate" required>
+                <label for="name">Full Name</label>
+            </div>
+            <div class="row"></div>
+
+            <div class="input-field col s6">
+                <input id="email" type="email" class="validate" required>
+                <label for="email">Email</label>
+            </div>
+
+
+            <div class="input-field col s12">
+                <p>
+                    <label>
+                        <input name="attending" type="radio" value="true" checked />
+                        <span>Attending</span>
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        <input name="attending" value="false" type="radio" />
+                        <span>Not attending</span>
+                    </label>
+                </p>
+            </div>
+            <div class="row">
+
+                <div class="input-field col s6">
+                    <input id="dietary" type="text" class="validate" required>
+                    <label for="dietary">Dietary requirements</label>
+                </div>
+            </div>
+            <input type="submit" id="button" class="button waves-effect waves-light btn btn-large">
+
+        </form>
+    </div>
+
+    <!--JavaScript at end of body for optimized loading-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-app.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-database.js"></script>
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyAdeshXg45Wu6z33DU73UP6qptF5xXNArY",
+            authDomain: "wedding-98e1a.firebaseapp.com",
+            databaseURL: "https://wedding-98e1a.firebaseio.com",
+            projectId: "wedding-98e1a",
+            storageBucket: "wedding-98e1a.appspot.com",
+            messagingSenderId: "1088267747105",
+            appId: "1:1088267747105:web:1209260ae981b6e5"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        // Get a reference to the database service
+
+        var database = firebase.database();
+        button.addEventListener('click', function (e) {
+            console.log('button clicked');
+            e.preventDefault();
+            submitRsvp()
+        })
+        function submitRsvp() {
+            var name = document.getElementById('name').value;
+            var email = document.getElementById('email').value
+            var dietary = document.getElementById('dietary').value
+            var attending = document.querySelector('input[name="attending"]:checked').value;
+
+            if (!name || !email || !dietary) {
+                M.toast({ html: 'Please fill in all fields' })
+            } else {
+                console.log('submitting');
+                var ref
+                if (attending === 'true') {
+                    ref = database.ref(`rsvps/attending/${name}`)
+                } else {
+                    ref = database.ref(`rsvps/notAttending/${name}`)
+                }
+
+                ref.update({
+                    email: email,
+                    dietary: dietary
+                }
+
+                );
+
+                M.toast({ html: 'Submitted' })
+                setTimeout(function () {
+                    window.location.href = "https://naazy.github.io"
+                }, 2000)
+
+            }
+
+        }
+        // var rsvpRef = database.ref("rsvps");
+
+        function writeUserData(userId, name, email, imageUrl) {
+            firebase.database().ref('rsvps').set({
+                username: "naaz",
+                email: "@gmail.com"
+            });
+        }
+    </script>
+</body>
+
+</html>

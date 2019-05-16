@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from "../components/Home";
-import AddExpensePage from "../components/AddExpensePage";
-import EditExpensePage from "../components/EditExpensePage";
+import GiftsPage from "../components/GiftsPage";
+import RsvpPage from "../components/RsvpPage";
 import Help from "../components/Help";
 import NotFoundPage from "../components/NotFoundPage";
 import Header from "../components/Header";
@@ -13,8 +13,8 @@ const AppRouter = () => (
       <Header /> {/* makes it appear on every page */}
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route exact path="/create" component={AddExpensePage} />
-        <Route exact path="/edit/:id" component={EditExpensePage} />
+        <Route exact path="/gifts" component={GiftsPage} />
+        <Route exact path="/rsvp" component={RsvpPage} />
         <Route exact path="/help" component={Help} />
         <Route component={NotFoundPage} />
       </Switch>
